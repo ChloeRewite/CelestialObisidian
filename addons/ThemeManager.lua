@@ -36,7 +36,7 @@ end
 
 local ThemeManager = {}
 do
-    ThemeManager.Folder = "ObsidianLibSettings"
+    ThemeManager.Folder = "CelestialScript"
     -- if not isfolder(ThemeManager.Folder) then makefolder(ThemeManager.Folder) end
 
     ThemeManager.Library = nil
@@ -45,9 +45,10 @@ do
         ["Default"] = {
             1,
             httpService:JSONDecode(
-                [[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"7d55ff","BackgroundColor":"0f0f0f","OutlineColor":"282828"}]]
+                 [[{"FontColor":"ffffff","MainColor":"000000","AccentColor":"0051ff","BackgroundColor":"000000","OutlineColor":"0f1937"}]]
             ),
         },
+
         ["BBot"] = {
             2,
             httpService:JSONDecode(
