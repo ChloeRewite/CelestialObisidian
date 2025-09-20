@@ -69,7 +69,7 @@ function InfoManager:ApplyToTab(tab)
     local currentPlayers = #Players:GetPlayers()
     local maxPlayers = Players.MaxPlayers
     local activeColor = (currentPlayers >= maxPlayers) and "rgb(255,0,0)" or "rgb(0,255,0)"
-    RightGroup:AddLabel(string.format("Active Players:<font color='%s'>%d/%d</font>", activeColor, currentPlayers, maxPlayers), true)
+    RightGroup:AddLabel(string.format("Active Players: <font color='%s'>%d/%d</font>", activeColor, currentPlayers, maxPlayers), true)
 
     RightGroup:AddLabel("<font color='rgb(255,165,0)'>JobId:</font> " .. game.JobId, true)
 
