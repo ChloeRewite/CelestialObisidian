@@ -1,5 +1,5 @@
 -- Notify.lua
-local DEFAULT_TITLE = "Celestial :3"
+local DEFAULT_TITLE = "Notification!"
 
 local function Chloe(desc, time, sound)
     local note = Library:Notify({
