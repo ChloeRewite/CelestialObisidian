@@ -15,8 +15,7 @@ getgenv().globalcolour = {
     "Alert! Not safe",
     "How to use it?",
     "Information Script",
-    "Webhook Celestial",
-    "Celestial Notifier",
+    "Webhook Celestial"
 }
 
 function ButtonManager:Init(Library)
@@ -82,7 +81,7 @@ function ButtonManager:Init(Library)
     end)
 
     ----------------------------------------------------------------
-    -- GRADIENT SYSTEM (pakai Jura Bold, tanpa RichText)
+    -- GRADIENT SYSTEM (hanya warna/gradient, font biarin default)
     ----------------------------------------------------------------
     local function getKeywords()
         local merged = {}
@@ -122,11 +121,7 @@ function ButtonManager:Init(Library)
                 end
 
                 if shouldColor then
-                    lbl.RichText = false
-                    lbl.Font = Enum.Font.Jura
-                    lbl.FontWeight = Enum.FontWeight.Bold
                     lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    lbl.TextTransparency = 0
                     lbl.TextWrapped = false
                     lbl.TextTruncate = Enum.TextTruncate.AtEnd
 
