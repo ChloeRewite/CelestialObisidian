@@ -1,6 +1,6 @@
 --== Celestial Framework ==--
 
-local repo = "https://raw.githubusercontent.com/<username>/<repo>/main/"
+local repo = "https://raw.githubusercontent.com/ChloeRewite/CelestialObisidian/main/"
 
 -- ambil library UI
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
