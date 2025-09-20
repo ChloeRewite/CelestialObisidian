@@ -15,7 +15,8 @@ getgenv().globalcolour = {
     "Alert! Not safe",
     "How to use it?",
     "Information Script",
-    "Webhook Celestial"
+    "Webhook Celestial",
+    "Celestial Notifier",
 }
 
 function ButtonManager:Init(Library)
@@ -81,7 +82,7 @@ function ButtonManager:Init(Library)
     end)
 
     ----------------------------------------------------------------
-    -- GRADIENT SYSTEM (tanpa RichText, jadi ga spam <b></b>)
+    -- GRADIENT SYSTEM (pakai Jura Bold, tanpa RichText)
     ----------------------------------------------------------------
     local function getKeywords()
         local merged = {}
@@ -109,7 +110,6 @@ function ButtonManager:Init(Library)
                 local textLower = string.lower(lbl.Text)
                 local shouldColor = false
 
-                -- cek dari keywords
                 for _, key in ipairs(keywords) do
                     if string.find(lbl.Text, key) then
                         shouldColor = true
@@ -117,14 +117,14 @@ function ButtonManager:Init(Library)
                     end
                 end
 
-                -- cek auto detect "feature"
                 if string.find(textLower, "feature") then
                     shouldColor = true
                 end
 
                 if shouldColor then
-                    lbl.RichText = false -- biar aman
-                    lbl.Font = Enum.Font.GothamBold
+                    lbl.RichText = false
+                    lbl.Font = Enum.Font.Jura
+                    lbl.FontWeight = Enum.FontWeight.Bold
                     lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
                     lbl.TextTransparency = 0
                     lbl.TextWrapped = false
