@@ -1,3 +1,4 @@
+-- addons/ButtonManager.lua
 local ButtonManager = {}
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
@@ -74,13 +75,13 @@ function ButtonManager:Init(Library)
         Library:Toggle()
     end)
 
-    -- Hapus kalau UI unload
+    -- Destroy button when UI unload
     Library:OnUnload(function()
         Chloe:Destroy()
     end)
 
     ----------------------------------------------------------------
-    -- GRADIENT SYSTEM: gabung globalcolour + Colour
+    -- GRADIENT SYSTEM (tanpa RichText, jadi ga spam <b></b>)
     ----------------------------------------------------------------
     local function getKeywords()
         local merged = {}
@@ -122,10 +123,12 @@ function ButtonManager:Init(Library)
                 end
 
                 if shouldColor then
-                    lbl.RichText = true
-                    lbl.Text = "<b>" .. lbl.Text .. "</b>"
+                    lbl.RichText = false -- biar aman
+                    lbl.Font = Enum.Font.GothamBold
                     lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
                     lbl.TextTransparency = 0
+                    lbl.TextWrapped = false
+                    lbl.TextTruncate = Enum.TextTruncate.AtEnd
 
                     if not lbl:FindFirstChildWhichIsA("UIGradient") then
                         local grad = Instance.new("UIGradient")
