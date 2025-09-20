@@ -1,4 +1,3 @@
--- addons/ButtonManager.lua
 local ButtonManager = {}
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
@@ -75,13 +74,13 @@ function ButtonManager:Init(Library)
         Library:Toggle()
     end)
 
-    -- Destroy button when UI unload
+    -- Hapus kalau UI unload
     Library:OnUnload(function()
         Chloe:Destroy()
     end)
 
     ----------------------------------------------------------------
-    -- GRADIENT SYSTEM (hanya warna/gradient, font biarin default)
+    -- GRADIENT SYSTEM
     ----------------------------------------------------------------
     local function getKeywords()
         local merged = {}
@@ -109,6 +108,7 @@ function ButtonManager:Init(Library)
                 local textLower = string.lower(lbl.Text)
                 local shouldColor = false
 
+                -- cek keywords
                 for _, key in ipairs(keywords) do
                     if string.find(lbl.Text, key) then
                         shouldColor = true
@@ -116,11 +116,13 @@ function ButtonManager:Init(Library)
                     end
                 end
 
+                -- auto detect "feature"
                 if string.find(textLower, "feature") then
                     shouldColor = true
                 end
 
                 if shouldColor then
+                    lbl.RichText = false -- jangan pakai <b> spam
                     lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
                     lbl.TextWrapped = false
                     lbl.TextTruncate = Enum.TextTruncate.AtEnd
