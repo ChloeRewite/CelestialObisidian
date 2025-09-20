@@ -14,7 +14,8 @@ getgenv().globalcolour = {
     "Alert! Not safe",
     "How to use it?",
     "Information Script",
-    "Webhook Celestial"
+    "Webhook Celestial",
+    "Celestial Notifier"
 }
 
 function ButtonManager:Init(Library)
