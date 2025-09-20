@@ -11,10 +11,13 @@ local function Chloe(desc, time, sound)
 
     task.defer(function()
         if note and note.Frame then
-            -- Cari Title di semua descendant
+            ----------------------------------------------------------------
+            -- Cari Title
+            ----------------------------------------------------------------
             local title
             for _, obj in ipairs(note.Frame:GetDescendants()) do
-                if obj:IsA("TextLabel") and string.find(obj.Text, DEFAULT_TITLE) then
+                if (obj:IsA("TextLabel") or obj:IsA("TextButton")) 
+                   and string.find(string.lower(obj.Text), string.lower(DEFAULT_TITLE)) then
                     title = obj
                     break
                 end
@@ -25,8 +28,9 @@ local function Chloe(desc, time, sound)
                 title.TextWrapped = false
                 title.TextTruncate = Enum.TextTruncate.None
                 title.TextColor3 = Color3.fromRGB(255, 255, 255)
+                title.TextTransparency = 0
 
-                -- FontFace Jura Bold
+                -- Font Jura Bold
                 pcall(function()
                     title.FontFace = Font.new(
                         "rbxasset://fonts/families/Jura.json",
@@ -45,14 +49,21 @@ local function Chloe(desc, time, sound)
                         ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 85, 255)),
                     })
                     grad.Rotation = 28
+                    grad.Transparency = NumberSequence.new{
+                        NumberSequenceKeypoint.new(0, 0),
+                        NumberSequenceKeypoint.new(1, 0)
+                    }
                     grad.Parent = title
                 end
             end
 
-            -- Description
+            ----------------------------------------------------------------
+            -- Cari Description
+            ----------------------------------------------------------------
             local descLabel
             for _, obj in ipairs(note.Frame:GetDescendants()) do
-                if obj:IsA("TextLabel") and string.find(obj.Text, desc) then
+                if (obj:IsA("TextLabel") or obj:IsA("TextButton")) 
+                   and string.find(obj.Text, desc) then
                     descLabel = obj
                     break
                 end
