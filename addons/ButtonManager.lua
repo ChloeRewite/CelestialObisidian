@@ -2,6 +2,21 @@ local ButtonManager = {}
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
+getgenv().globalcolour = {
+    "Celestial v66",
+    "Celestial Script",
+    "Celestial Information",
+    "Menu",
+    "Configuration",
+    "Server Info",
+    "Reminder for you :3",
+    "Dangerous Area",
+    "Alert! Not safe",
+    "How to use it?",
+    "Information Script",
+    "Webhook Celestial"
+}
+
 function ButtonManager:Init(Library)
     local Chloe = Instance.new("ScreenGui")
     local Button = Instance.new("ImageButton")
@@ -64,8 +79,21 @@ function ButtonManager:Init(Library)
         Chloe:Destroy()
     end)
 
-    -- Gradient ke semua teks UI
-    local function ApplyGradientToAllText(ui)
+    ----------------------------------------------------------------
+    -- GRADIENT SYSTEM: gabung globalcolour + Colour
+    ----------------------------------------------------------------
+    local function getKeywords()
+        local merged = {}
+        for _, v in ipairs(getgenv().globalcolour or {}) do
+            table.insert(merged, v)
+        end
+        for _, v in ipairs(Colour or {}) do
+            table.insert(merged, v)
+        end
+        return merged
+    end
+
+    local function ApplyGradient(root)
         local sharedGradient = ColorSequence.new({
             ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 85, 255)),
             ColorSequenceKeypoint.new(0.33, Color3.fromRGB(174, 0, 255)),
@@ -73,26 +101,75 @@ function ButtonManager:Init(Library)
             ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 85, 255)),
         })
 
-        for _, lbl in ipairs(ui:GetDescendants()) do
-            if lbl:IsA("TextLabel") or lbl:IsA("TextButton") or lbl:IsA("TextBox") then
-                lbl.RichText = true
-                lbl.TextColor3 = Color3.new(1, 1, 1)
-                if not lbl:FindFirstChildWhichIsA("UIGradient") then
-                    local grad = Instance.new("UIGradient")
-                    grad.Color = sharedGradient
-                    grad.Rotation = 28
-                    grad.Parent = lbl
+        local keywords = getKeywords()
+
+        for _, lbl in ipairs(root:GetDescendants()) do
+            if lbl:IsA("TextLabel") or lbl:IsA("TextButton") then
+                local textLower = string.lower(lbl.Text)
+                local shouldColor = false
+
+                -- cek dari keywords
+                for _, key in ipairs(keywords) do
+                    if string.find(lbl.Text, key) then
+                        shouldColor = true
+                        break
+                    end
+                end
+
+                -- cek auto detect "feature"
+                if string.find(textLower, "feature") then
+                    shouldColor = true
+                end
+
+                if shouldColor then
+                    lbl.RichText = true
+                    lbl.Text = "<b>" .. lbl.Text .. "</b>"
+                    lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    lbl.TextTransparency = 0
+
+                    if not lbl:FindFirstChildWhichIsA("UIGradient") then
+                        local grad = Instance.new("UIGradient")
+                        grad.Color = sharedGradient
+                        grad.Rotation = 28
+                        grad.Parent = lbl
+                    end
                 end
             end
         end
     end
 
     task.defer(function()
-        local ui = CoreGui:WaitForChild(Library.Window.Title, 10)
+        local ui = Library.UI or Library.ScreenGui
         if ui then
-            ApplyGradientToAllText(ui)
+            ApplyGradient(ui)
+            ui.DescendantAdded:Connect(function(obj)
+                if obj:IsA("TextLabel") or obj:IsA("TextButton") then
+                    ApplyGradient(ui)
+                end
+            end)
         end
     end)
+
+    ----------------------------------------------------------------
+    -- ANTI AFK SYSTEM
+    ----------------------------------------------------------------
+    local player = game:GetService("Players").LocalPlayer
+    local GC = getconnections or get_signal_cons
+    if GC then
+        for _, v in pairs(GC(player.Idled)) do
+            if v.Disable then
+                v:Disable()
+            elseif v.Disconnect then
+                v:Disconnect()
+            end
+        end
+    else
+        local VirtualUser = cloneref(game:GetService("VirtualUser"))
+        player.Idled:Connect(function()
+            VirtualUser:CaptureController()
+            VirtualUser:ClickButton2(Vector2.new())
+        end)
+    end
 end
 
 return ButtonManager
