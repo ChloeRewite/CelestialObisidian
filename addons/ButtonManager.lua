@@ -15,7 +15,7 @@ getgenv().globalcolour = {
     "How to use it?",
     "Information Script",
     "Webhook Celestial",
-    "Celestial Notifier"
+    "Celestial :3"
 }
 
 function ButtonManager:Init(Library)
