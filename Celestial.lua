@@ -51,7 +51,9 @@ local function Init(Window, Tabs)
 
     --== FOLDERS ==--
     ThemeManager:SetFolder("CelestialObisidian")
-    SaveManager:SetFolder("CelestialObisidian/Configs")
+    SaveManager:SetFolder("CelestialObisidian")
+    SaveManager:SetSubFolder("Configs")
+
 
     --== CONFIG SYSTEM ==--
     SaveManager:BuildConfigSection(Tabs.Settings)
