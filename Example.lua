@@ -1,27 +1,12 @@
--- modified for CelestialObisidian by ChloeRewrite
+--== Example.lua ==--
 
-local repo = "https://raw.githubusercontent.com/ChloeRewite/CelestialObisidian/main/"
-local Library       = loadstring(game:HttpGet(repo .. "Library.lua"))()
-local ThemeManager  = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
-local SaveManager   = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
-local InfoManager   = loadstring(game:HttpGet(repo .. "addons/InfoManager.lua"))()
-local ButtonManager = loadstring(game:HttpGet(repo .. "addons/ButtonManager.lua"))()
-local MenuManager   = loadstring(game:HttpGet(repo .. "addons/MenuManager.lua"))()
+-- load framework
+local Celestial = loadstring(game:HttpGet("https://raw.githubusercontent.com/ChloeRewite/CelestialObisidian/main/Celestial.lua"))()
 
+-- ambil Library
+local Library = Celestial.Library
 
-getgenv().ColourTitle = {
-    "Celestial",
-    "Celestial v66",
-    "Celestial Script",
-    "Menu",
-    "Configuration",
-}
-
-local Options           = Library.Options
-local Toggles           = Library.Toggles
-Library.IsMobile = false
-Library.ToggleKeybind   = nil
-
+-- bikin window utama
 local Window = Library:CreateWindow({
     Title = "Celestial v66",
     Footer = "<font color='rgb(0,191,255)'>Version 1.1.1 Beta</font>",
@@ -29,96 +14,43 @@ local Window = Library:CreateWindow({
     ShowCustomCursor = false,
 })
 
+-- bikin tabs
 local Tabs = {
-    Info        = Window:AddTab("Info", "info"),
-    Main        = Window:AddTab("Main", "user"),
-    Key         = Window:AddKeyTab("Key System"),
-    Settings    = Window:AddTab("Miscellaneous", "settings"),
+    Info     = Window:AddTab("Info", "info"),
+    Main     = Window:AddTab("Main", "home"),
+    Settings = Window:AddTab("Settings", "settings"),
 }
 
-----------------------------------------------------
--- === Contoh Isi Main Tab
-----------------------------------------------------
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Main Features", "boxes")
+-- init framework (apply ThemeManager, SaveManager, dsb.)
+Celestial.Init(Window, Tabs)
 
-LeftGroupBox:AddToggle("ExampleToggle", {
-    Text = "Auto Fish",
-    Default = false,
-    Callback = function(Value)
-        print("Auto Fish state:", Value)
-    end,
-})
+--==============================
+-- Example Features
+--==============================
 
-----------------------------------------------------
--- === Key System Example
-----------------------------------------------------
-Tabs.Key:AddLabel({
-    Text = "Key: Banana",
-    DoesWrap = true,
-    Size = 16,
-})
+-- Groupbox di tab Main (kiri)
+local MainBox = Tabs.Main:AddLeftGroupbox("Main Features")
 
-Tabs.Key:AddKeyBox("Banana", function(Success, ReceivedKey)
-    print("Expected: Banana | Got:", ReceivedKey, "| Success:", Success)
-    Library:Notify({
-        Title = "Key System",
-        Description = "Expected: Banana\nReceived: " .. ReceivedKey .. "\nSuccess: " .. tostring(Success),
-        Time = 4,
-    })
+MainBox:AddToggle("AutoFarm", {
+    Text = "Enable Auto Farm",
+    Default = false
+}):OnChanged(function(state)
+    if state then
+        Chloe("AutoFarm Enabled!") -- pakai global Chloe
+    else
+        Chloe("AutoFarm Disabled!")
+    end
 end)
 
+MainBox:AddButton("Test Notify", function()
+    Chloe("Halo dari Celestial Example!", 5)
+end)
 
+-- Groupbox di tab Settings (kanan)
+local SettingsBox = Tabs.Settings:AddRightGroupbox("Utilities")
 
-Library:SetFont(Enum.Font.Jura)
-ThemeManager:SetLibrary(Library)
-ThemeManager:SetDefaultTheme({
-    BackgroundColor = Color3.fromRGB(0, 0, 0),
-    MainColor       = Color3.fromRGB(0, 0, 0),
-    AccentColor     = Color3.fromRGB(0, 81, 255),
-    OutlineColor    = Color3.fromRGB(15, 25, 55),
-    FontColor       = Color3.fromRGB(255, 255, 255),
-    FontFace        = Enum.Font.Jura,
-})
+SettingsBox:AddButton("Force Save Config", function()
+    Chloe("Config saved!", 3)
+end)
 
-SaveManager:SetLibrary(Library)
-SaveManager:IgnoreThemeSettings()
-SaveManager:SetIgnoreIndexes({ "MenuKeybind" })
-InfoManager:SetLibrary(Library)
-InfoManager:ApplyToTab(Tabs.Info)
-ButtonManager:Init(Library)
-MenuManager:SetLibrary(Library)
-MenuManager:ApplyToTab(Tabs.Settings)
-ThemeManager:SetFolder("CelestialHub")
-SaveManager:SetFolder("CelestialHub/Configs")
-SaveManager:BuildConfigSection(Tabs.Settings)
-SaveManager:LoadAutoloadConfig()
-
-local ActiveConfig = nil
-
-local oldLoad = SaveManager.Load
-function SaveManager:Load(name)
-    ActiveConfig = name
-    return oldLoad(self, name)
-end
-
-local oldSave = SaveManager.Save
-function SaveManager:Save(name, ...)
-    ActiveConfig = name
-    return oldSave(self, name, ...)
-end
-
-local function AutoSave()
-    if ActiveConfig then
-        pcall(function()
-            SaveManager:Save(ActiveConfig)
-        end)
-    end
-end
-
-for _, toggle in pairs(Library.Toggles) do
-    toggle:OnChanged(AutoSave)
-end
-
-for _, option in pairs(Library.Options) do
-    option:OnChanged(AutoSave)
-end
+-- Info tab sudah otomatis diisi InfoManager & ButtonManager dari Init()
