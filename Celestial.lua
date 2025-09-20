@@ -28,30 +28,33 @@ getgenv().Chloe = Chloe
 
 -- fungsi init dipanggil dari main.lua
 local function Init(Window, Tabs)
-    -- theme & save
+    --== THEME ==--
     ThemeManager:SetLibrary(Library)
+    ThemeManager:SetDefaultTheme("Default")
+    Library:SetFont(Enum.Font.Jura)
+
+    --== SAVE ==--
     SaveManager:SetLibrary(Library)
     SaveManager:IgnoreThemeSettings()
     SaveManager:SetIgnoreIndexes({ "MenuKeybind" })
 
-    ThemeManager:SetFolder("CelestialObisidian")
-    SaveManager:SetFolder("CelestialObisidian/configs")
-
-    ThemeManager:ApplyToTab(Tabs.Settings)
-    SaveManager:BuildConfigSection(Tabs.Settings)
-
-    -- info & button
+    --== INFO ==--
     InfoManager:SetLibrary(Library)
     InfoManager:ApplyToTab(Tabs.Info)
 
-    ButtonManager:SetLibrary(Library)
-    ButtonManager:ApplyToTab(Tabs.Info)
+    --== BUTTON ==--
+    ButtonManager:Init(Library)
 
-    -- menu utama
+    --== MENU ==--
     MenuManager:SetLibrary(Library)
-    MenuManager:ApplyToTab(Tabs.Main)
+    MenuManager:ApplyToTab(Tabs.Settings)
 
-    -- autoload config
+    --== FOLDERS ==--
+    ThemeManager:SetFolder("CelestialObisidian")
+    SaveManager:SetFolder("CelestialObisidian/Configs")
+
+    --== CONFIG SYSTEM ==--
+    SaveManager:BuildConfigSection(Tabs.Settings)
     SaveManager:LoadAutoloadConfig()
 end
 
