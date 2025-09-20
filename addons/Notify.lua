@@ -9,15 +9,26 @@ local function Chloe(desc, time, sound)
         SoundId = sound,
     })
 
-    -- kasih gradient + fix supaya title ga turun baris
     task.spawn(function()
         local title = note and note.Frame and note.Frame.Title
         if title then
-            -- biar ga pernah kebawah
+            -- MATIIN RichText biar ga auto split
+            title.RichText = false
+
+            -- font dibold manual
+            title.Font = Enum.Font.GothamBold
+
+            -- biar aman ga kebelah 2
             title.TextWrapped = false
             title.TextXAlignment = Enum.TextXAlignment.Left
             title.TextTruncate = Enum.TextTruncate.AtEnd
 
+            -- kalau width terlalu kecil, paksa perbesar sedikit
+            if title.TextBounds.X > title.AbsoluteSize.X then
+                title.Size = UDim2.new(1, 50, title.Size.Y.Scale, title.Size.Y.Offset)
+            end
+
+            -- kasih gradient
             if not title:FindFirstChild("UIGradient") then
                 local gradient = Instance.new("UIGradient")
                 gradient.Color = ColorSequence.new{
