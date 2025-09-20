@@ -2,6 +2,7 @@ local ButtonManager = {}
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
+-- Default keywords
 getgenv().globalcolour = {
     "Celestial v66",
     "Celestial Script",
@@ -19,6 +20,9 @@ getgenv().globalcolour = {
 }
 
 function ButtonManager:Init(Library)
+    ----------------------------------------------------------------
+    -- Chloe Button
+    ----------------------------------------------------------------
     local Chloe = Instance.new("ScreenGui")
     local Button = Instance.new("ImageButton")
     local Corner = Instance.new("UICorner")
@@ -75,7 +79,7 @@ function ButtonManager:Init(Library)
         Library:Toggle()
     end)
 
-    -- Hapus kalau UI unload
+    -- Destroy UI if unload
     Library:OnUnload(function()
         Chloe:Destroy()
     end)
@@ -85,20 +89,16 @@ function ButtonManager:Init(Library)
     ----------------------------------------------------------------
     local function getKeywords()
         local merged = {}
-        
-        -- Ambil dari globalcolour (default)
+
         for _, v in ipairs(getgenv().globalcolour or {}) do
             table.insert(merged, v)
         end
-
-        -- Ambil dari colour (ditulis di script utama)
         for _, v in ipairs(getgenv().colour or {}) do
             table.insert(merged, v)
         end
 
         return merged
     end
-
 
     local function ApplyGradient(root)
         local sharedGradient = ColorSequence.new({
@@ -115,9 +115,9 @@ function ButtonManager:Init(Library)
                 local textLower = string.lower(lbl.Text)
                 local shouldColor = false
 
-                -- cek keywords
+                -- cek keywords (case-insensitive)
                 for _, key in ipairs(keywords) do
-                    if string.find(lbl.Text, key) then
+                    if string.find(textLower, string.lower(key), 1, true) then
                         shouldColor = true
                         break
                     end
@@ -133,7 +133,7 @@ function ButtonManager:Init(Library)
                     lbl.TextWrapped = false
                     lbl.TextTruncate = Enum.TextTruncate.AtEnd
 
-                    -- Gunakan Jura Bold (FontFace)
+                    -- Font
                     pcall(function()
                         lbl.FontFace = Font.new(
                             "rbxasset://fonts/families/Jura.json",
