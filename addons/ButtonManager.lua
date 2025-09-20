@@ -85,14 +85,20 @@ function ButtonManager:Init(Library)
     ----------------------------------------------------------------
     local function getKeywords()
         local merged = {}
+        
+        -- Ambil dari globalcolour (default)
         for _, v in ipairs(getgenv().globalcolour or {}) do
             table.insert(merged, v)
         end
-        for _, v in ipairs(Colour or {}) do
+
+        -- Ambil dari colour (ditulis di script utama)
+        for _, v in ipairs(getgenv().colour or {}) do
             table.insert(merged, v)
         end
+
         return merged
     end
+
 
     local function ApplyGradient(root)
         local sharedGradient = ColorSequence.new({
