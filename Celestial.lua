@@ -3,22 +3,24 @@
 local repo = "https://raw.githubusercontent.com/ChloeRewite/CelestialObisidian/main/"
 
 -- ambil library UI
-local Library       = loadstring(game:HttpGet(repo .. "Library.lua"))()
-local ThemeManager  = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
-local SaveManager   = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
-local InfoManager   = loadstring(game:HttpGet(repo .. "addons/InfoManager.lua"))()
-local ButtonManager = loadstring(game:HttpGet(repo .. "addons/ButtonManager.lua"))()
-local MenuManager   = loadstring(game:HttpGet(repo .. "addons/MenuManager.lua"))()
-local Chloe         = loadstring(game:HttpGet(repo .. "addons/Notify.lua"))()
+local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+
+-- addons
+local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
+local SaveManager  = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
+local InfoManager  = loadstring(game:HttpGet(repo .. "addons/InfoManager.lua"))()
+local ButtonManager= loadstring(game:HttpGet(repo .. "addons/ButtonManager.lua"))()
+local MenuManager  = loadstring(game:HttpGet(repo .. "addons/MenuManager.lua"))()
+local Chloe        = loadstring(game:HttpGet(repo .. "addons/Notify.lua"))()
 
 -- simpan manager ke global
 getgenv().CelestialManagers = {
-    ThemeManager  = ThemeManager,
-    SaveManager   = SaveManager,
-    InfoManager   = InfoManager,
-    ButtonManager = ButtonManager,
-    MenuManager   = MenuManager,
-    Chloe         = Chloe,
+    ThemeManager = ThemeManager,
+    SaveManager  = SaveManager,
+    InfoManager  = InfoManager,
+    ButtonManager= ButtonManager,
+    MenuManager  = MenuManager,
+    Chloe        = Chloe,
 }
 
 -- shortcut global biar bisa langsung Chloe("msg")
@@ -52,23 +54,10 @@ local function Init(Window, Tabs)
     SaveManager:SetFolder("CelestialObisidian")
     SaveManager:SetSubFolder("Configs")
 
+
     --== CONFIG SYSTEM ==--
     SaveManager:BuildConfigSection(Tabs.Settings)
-
-    -- panggil terakhir biar semua element sudah siap
-    task.defer(function()
-        local ok, err = pcall(function()
-            SaveManager:LoadAutoloadConfig()
-        end)
-
-        if ok then
-            local cfg = SaveManager.AutoloadConfig or "none"
-            print("[Celestial] Autoload sync success → " .. tostring(cfg))
-            warn("[Celestial] Loaded config:", cfg)
-        else
-            warn("[Celestial] Autoload failed:", err)
-        end
-    end)
+    SaveManager:LoadAutoloadConfig()
 end
 
 -- return buat main.lua
