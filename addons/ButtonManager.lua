@@ -122,10 +122,20 @@ function ButtonManager:Init(Library)
                 end
 
                 if shouldColor then
-                    lbl.RichText = false -- jangan pakai <b> spam
-                    lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    lbl.RichText = false
                     lbl.TextWrapped = false
                     lbl.TextTruncate = Enum.TextTruncate.AtEnd
+
+                    -- Gunakan Jura Bold (FontFace)
+                    pcall(function()
+                        lbl.FontFace = Font.new(
+                            "rbxasset://fonts/families/Jura.json",
+                            Enum.FontWeight.Bold,
+                            Enum.FontStyle.Normal
+                        )
+                    end)
+
+                    lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
 
                     if not lbl:FindFirstChildWhichIsA("UIGradient") then
                         local grad = Instance.new("UIGradient")
