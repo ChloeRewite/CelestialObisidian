@@ -1,5 +1,5 @@
 -- addons/Notify.lua
-local DEFAULT_TITLE = "Notifier!"
+local DEFAULT_TITLE = "Notification Celestial!"
 
 local function Chloe(desc, time, sound)
     local note = Library:Notify({
@@ -8,7 +8,7 @@ local function Chloe(desc, time, sound)
         Time = time or 4,
         SoundId = sound,
     })
-    
+
     return note
 end
 
