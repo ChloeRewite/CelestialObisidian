@@ -15,7 +15,7 @@ getgenv().globalcolour = {
     "How to use it?",
     "Information Script",
     "Webhook Celestial",
-    "Notifier!",
+    "Notification Celestial!",
 }
 
 function ButtonManager:Init(Library)
@@ -125,7 +125,7 @@ function ButtonManager:Init(Library)
                 if shouldColor then
                     lbl.RichText = false
                     lbl.TextWrapped = false
-                    lbl.TextTruncate = Enum.TextTruncate.None
+                    lbl.TextTruncate = Enum.TextTruncate.AtEnd
 
                     -- Gunakan Jura Bold (FontFace)
                     pcall(function()
