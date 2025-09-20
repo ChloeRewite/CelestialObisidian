@@ -125,7 +125,7 @@ function ButtonManager:Init(Library)
                 if shouldColor then
                     lbl.RichText = false
                     lbl.TextWrapped = false
-                    lbl.TextTruncate = Enum.TextTruncate.AtEnd
+                    lbl.TextTruncate = Enum.TextTruncate.None
 
                     -- Gunakan Jura Bold (FontFace)
                     pcall(function()
