@@ -9,12 +9,18 @@ local function Chloe(desc, time, sound)
         SoundId = sound,
     })
 
-    -- Apply style ke title & description
     task.defer(function()
         if note and note.Frame then
-            -- Title
-            local title = note.Frame:FindFirstChild("Title")
-            if title and title:IsA("TextLabel") then
+            -- Cari Title di semua descendant
+            local title
+            for _, obj in ipairs(note.Frame:GetDescendants()) do
+                if obj:IsA("TextLabel") and string.find(obj.Text, DEFAULT_TITLE) then
+                    title = obj
+                    break
+                end
+            end
+
+            if title then
                 title.RichText = false
                 title.TextWrapped = false
                 title.TextTruncate = Enum.TextTruncate.None
@@ -44,14 +50,20 @@ local function Chloe(desc, time, sound)
             end
 
             -- Description
-            local descLabel = note.Frame:FindFirstChild("Description")
-            if descLabel and descLabel:IsA("TextLabel") then
+            local descLabel
+            for _, obj in ipairs(note.Frame:GetDescendants()) do
+                if obj:IsA("TextLabel") and string.find(obj.Text, desc) then
+                    descLabel = obj
+                    break
+                end
+            end
+
+            if descLabel then
                 descLabel.RichText = false
                 descLabel.TextWrapped = true
                 descLabel.TextTruncate = Enum.TextTruncate.None
                 descLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
 
-                -- FontFace Jura (normal biar ga terlalu tebel semua)
                 pcall(function()
                     descLabel.FontFace = Font.new(
                         "rbxasset://fonts/families/Jura.json",
